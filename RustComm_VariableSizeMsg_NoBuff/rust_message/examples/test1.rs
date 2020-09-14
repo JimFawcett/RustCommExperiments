@@ -65,6 +65,13 @@ fn main() {
     let msg = create_msg_bytes_fit(&[1, 2, 3, 4]);
     msg.show_message(8);
     print!("\n\n  content: {:?}",msg.get_content_bytes());
+    println!();
+
+    print!("\n  -- demo header only message --\n");
+    let msg = create_msg_header_only();
+    let sz = msg.get_content_size();
+    msg.show_message(8);
+    print!("\n\n  msg content size: {}",sz);
     
     print!("\n\n  That's all Folks!\n\n");
 }

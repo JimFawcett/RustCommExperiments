@@ -79,11 +79,13 @@ fn client_wait_for_reply<L: Logger>(
         }
         let _ = tmr.stop();
         let et = tmr.elapsed_micros();
-        let mut msg = Message::new(TYPE_SIZE + CONTENT_SIZE + 32);
+        let content_size = 32;
+        let mut msg = Message::new(HEADER_SIZE + content_size);
         msg.set_type(MessageType::END as u8);
-        msg.set_content_size(32);
+        msg.set_content_size(content_size);
         conn.post_message(msg);
         display_test_data(et, num_msgs, sz_bytes);
+        let _ = std::io::stdout().flush();
     });
     handle
 }
@@ -115,9 +117,10 @@ fn client_no_wait_for_reply<L: Logger>(
             );
             sconn1.post_message(msg.clone());
         }
-        let mut msg = Message::new(TYPE_SIZE + CONTENT_SIZE + 32);
+        let content_size = 32;
+        let mut msg = Message::new(HEADER_SIZE + content_size);
         msg.set_type(MessageType::END as u8);
-        msg.set_content_size(32);
+        msg.set_content_size(content_size);
         sconn1.post_message(msg);
     });
     let handle = std::thread::spawn(move || {

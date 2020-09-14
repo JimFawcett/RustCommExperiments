@@ -4,7 +4,7 @@
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Fixed msg size: buffered, has RecvQ, fixed size msgs
+   Variable msg size: unbuffered
 
    Defined Types:
    - Listener<P,L>
