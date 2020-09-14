@@ -1,10 +1,12 @@
 /////////////////////////////////////////////////////////////
-// rust_comm::lib.rs - Tcp Communation Library             //
-//                                                         //
+// rust_comm::test4.rs - Test Tcp Communication Library    //
+//   - RustComm_FixedSizeMsg                               //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Fixed msg size: buffered, has RecvQ, fixed size msgs
+   Fixed msg size, buffered transfers
+
+   NOTE!  message size is defined in Message crate
 
    Defined Types:
    - Listener<P,L>
@@ -57,19 +59,12 @@ pub struct Connector<P,M,L> where
      _p: P,
      connected: bool,
      log: L,
-    //  msg_size: usize,
 }
 impl<P,M,L> Connector<P,M,L> where
     M: Msg + Clone + Send + Default + 'static,
     P: Debug + Copy + Clone + Send + Sync + Default + Sndr<M> + Rcvr<M>,
     L: Logger + Debug + Copy + Clone + Default
 {    
-    // pub fn set_msg_size(&mut self, sz: usize) {
-    //     self.msg_size = sz;
-    // }
-    // pub fn get_msg_size(&self) -> usize {
-    //     self.msg_size
-    // }
     pub fn is_connected(&self) -> bool {
         self.connected
     }
@@ -82,9 +77,6 @@ impl<P,M,L> Connector<P,M,L> where
     pub fn has_msg(&self) -> bool {
         self.rcv_queue.len() > 0
     }
-    // pub fn shut_down(&self) {
-    //     self.shutdown = true;
-    // }
     pub fn new(addr: &'static str) -> std::io::Result<Connector<P,M,L>>
     where
         M: Msg + Clone + Send + Default + 'static,
@@ -119,7 +111,8 @@ impl<P,M,L> Connector<P,M,L> where
                 let msg_type = msg.get_type();
                 let rslt = P::buf_send_message(&msg, &mut buf_writer);
                 if rslt.is_err() {
-                    print!("\n  msg send error");
+                    // causes panic if thread exits before io completes
+                    // print!("\n  msg send error");
                     break;
                 }
                 L::write("\n  -- send successful --");

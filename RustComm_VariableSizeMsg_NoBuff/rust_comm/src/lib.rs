@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::lib.rs - Tcp Communation Library             //
-//                                                         //
+//   - RustComm_VariableSizeMsg_NoBuff                     //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
@@ -64,12 +64,6 @@ impl<P,M,L> Connector<P,M,L> where
     P: Debug + Copy + Clone + Send + Sync + Default + Sndr<M> + Rcvr<M>,
     L: Logger + Debug + Copy + Clone + Default
 {    
-    // pub fn set_msg_size(&mut self, sz: usize) {
-    //     self.msg_size = sz;
-    // }
-    // pub fn get_msg_size(&self) -> usize {
-    //     self.msg_size
-    // }
     pub fn is_connected(&self) -> bool {
         self.connected
     }
@@ -82,9 +76,6 @@ impl<P,M,L> Connector<P,M,L> where
     pub fn has_msg(&self) -> bool {
         self.rcv_queue.len() > 0
     }
-    // pub fn shut_down(&self) {
-    //     self.shutdown = true;
-    // }
     pub fn new(addr: &'static str) -> std::io::Result<Connector<P,M,L>>
     where
         M: Msg + Clone + Send + Default + 'static,
@@ -111,7 +102,8 @@ impl<P,M,L> Connector<P,M,L> where
         
         /*-- send thread reads input queue and sends msg --*/
         let sqm = Arc::clone(&send_queue);
-        let _ = std::thread::spawn(move || {
+        let _ = std::thread::Builder::new()
+                     .name("third".to_string()).spawn(move || {
             let ssq = Arc::clone(&sqm);
             loop {
                 L::write("\n  -- dequing send msg --");
@@ -120,7 +112,10 @@ impl<P,M,L> Connector<P,M,L> where
                 let msg_type = msg.get_type();
                 let rslt = P::send_message(&msg, &mut strm1);
                 if rslt.is_err() {
-                    print!("\n  msg send error");
+                    // The print, below, occasionally causes a panic
+                    // due to thread closing before the io finishes.
+                    // print!("\n  msg send error");
+                    // let _ = std::io::stdout().flush();
                     break;
                 }
                 L::write("\n  -- send successful --");
@@ -132,7 +127,8 @@ impl<P,M,L> Connector<P,M,L> where
         });
         /*-- recv thread recvs msg (may block) and enQs for user --*/
         let rqm = Arc::clone(&recv_queue);
-        let _ = std::thread::spawn(move || {
+        let _ = std::thread::Builder::new()
+                     .name("fourth".to_string()).spawn(move || {
             let srq = Arc::clone(&rqm);
             loop {
                 L::write("\n  attempting to receive msg in connector");
@@ -255,12 +251,6 @@ where
             //   msg_size: 64,
         }
     }
-    // pub fn set_msg_size(&mut self, msg_size:usize) {
-    //     self.msg_size = msg_size;
-    // }
-    // pub fn get_msg_size(&self) -> usize {
-    //     self.msg_size
-    // }
     /*-- starts thread wrapping incoming loop which often blocks --*/
     pub fn start(&mut self, addr: &'static str) -> Result<JoinHandle<()>> 
     {
@@ -276,7 +266,8 @@ where
         let run_ref = Arc::clone(&self.run);
 
         /*-- this outer thread prevents appl from blocking waiting for connections --*/
-        let handle = std::thread::spawn(move || {
+        let handle = std::thread::Builder::new()
+            .name("fifth".to_string()).spawn(move || {
             let mut tp = ThreadPool::<TcpStream>::new(nt, thread_proc);
             /*-- loop on incoming iterator which calls accept and so blocks --*/
             for stream in tcpl.incoming() {
@@ -293,7 +284,7 @@ where
             tp.stop();
             L::write("\n--terminating listener thread--");  
         });
-        Ok(handle)
+        Ok(handle.unwrap())
     }
     pub fn stop(&mut self) {
         self.run.store(false, Ordering::Relaxed);

@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test4.rs - Test Tcp Communication Library    //
-//                                                         //
+//   - RustComm_FixedSizeMsg                               //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Fixed size msg: buffered, fixed size msgs
+   Fixed msg size, buffered transfers
 
    NOTE!  message size is defined in Message crate
  

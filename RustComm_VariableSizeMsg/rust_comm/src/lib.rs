@@ -1,10 +1,10 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::lib.rs - Tcp Communation Library             //
-//                                                         //
+//   - RustComm_VariableSizeMsg                            //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Fixed msg size: buffered, has RecvQ, fixed size msgs
+   Variable msg size, buffered transfer
 
    Defined Types:
    - Listener<P,L>
@@ -64,12 +64,6 @@ impl<P,M,L> Connector<P,M,L> where
     P: Debug + Copy + Clone + Send + Sync + Default + Sndr<M> + Rcvr<M>,
     L: Logger + Debug + Copy + Clone + Default
 {    
-    // pub fn set_msg_size(&mut self, sz: usize) {
-    //     self.msg_size = sz;
-    // }
-    // pub fn get_msg_size(&self) -> usize {
-    //     self.msg_size
-    // }
     pub fn is_connected(&self) -> bool {
         self.connected
     }
@@ -82,9 +76,6 @@ impl<P,M,L> Connector<P,M,L> where
     pub fn has_msg(&self) -> bool {
         self.rcv_queue.len() > 0
     }
-    // pub fn shut_down(&self) {
-    //     self.shutdown = true;
-    // }
     pub fn new(addr: &'static str) -> std::io::Result<Connector<P,M,L>>
     where
         M: Msg + Clone + Send + Default + 'static,
@@ -119,7 +110,9 @@ impl<P,M,L> Connector<P,M,L> where
                 let msg_type = msg.get_type();
                 let rslt = P::buf_send_message(&msg, &mut buf_writer);
                 if rslt.is_err() {
-                    print!("\n  msg send error");
+                    // may cause panic if io doesn't complete before 
+                    // thread shuts down
+                    // print!("\n  msg send error");
                     break;
                 }
                 L::write("\n  -- send successful --");

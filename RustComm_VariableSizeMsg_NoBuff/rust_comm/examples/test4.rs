@@ -107,7 +107,7 @@ fn client_no_wait_for_reply<L: Logger>(
     let sconn1 = Arc::clone(&conn);
     let sconn2 = Arc::clone(&conn);
     let msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
-    let _handle = std::thread::spawn(move || {
+    let _handle = std::thread::Builder::new().name("first".to_string()).spawn(move || {
         for _i in 0..num_msgs {
             L::write(
                 &format!(
@@ -123,7 +123,7 @@ fn client_no_wait_for_reply<L: Logger>(
         msg.set_content_size(content_size);
         sconn1.post_message(msg);
     });
-    let handle = std::thread::spawn(move || {
+    let handle = std::thread::Builder::new().name("second".to_string()).spawn(move || {
         for _i in 0..num_msgs {
             let msg = sconn2.get_message();
             L::write(
@@ -134,7 +134,7 @@ fn client_no_wait_for_reply<L: Logger>(
             );
         }
     });
-  (_handle, handle)
+  (_handle.unwrap(), handle.unwrap())
 }
 /*---------------------------------------------------------
   Display test data - used for individual tests
@@ -148,6 +148,7 @@ fn display_test_data(et:u128, num_msgs:usize, msg_size:usize) {
     print!("\n      elapsed microsec {}", et);
     print!("\n      messages/second  {:.2}", msg_rate);
     print!("\n      thruput - MB/S   {:.2}", byte_rate_mbpsec);
+    let _ = std::io::stdout().flush();
 }
 /*---------------------------------------------------------
   Multiple clients running client_no_wait_for_reply
@@ -188,6 +189,7 @@ fn multiple_clients(
 /*---------------------------------------------------------
   Perf testing - runs tests of the day
 */
+
 fn main() {
 
     print!("\n  -- test4: rust_comm --\n");
