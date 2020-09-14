@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test3.rs - Test Tcp Communation Library      //
-//                                                         //
+//   - RustComm_VariableSizeMsg_NoBuff                     //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
@@ -154,7 +154,7 @@ fn client_no_wait_for_reply<L: Logger>(
 */
 fn main() {
 
-    print!("\n  -- test3: rust_comm --\n");
+    print!("\n  -- Demo rust_comm: test3\n  -- VariableMsgSize, NoBuff\n");
 
     type L = MuteLog;
 

@@ -1,13 +1,11 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test4.rs - Test Tcp Communication Library    //
-//                                                         //
+//   - RustComm_VariableSizeMsg                            //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Fixed size msg: buffered, fixed size msgs
+   Variable size msgs, buffered
 
-   NOTE!  message size is defined in Message crate
- 
    Demo:
    Test message rate and throughput for multiple clients
    - start Listener component
@@ -185,7 +183,7 @@ fn multiple_clients(
 */
 fn main() {
 
-    print!("\n  -- test4: rust_comm --\n");
+    print!("\n  -- test4: rust_comm\n  -- variable size msgs, buffered\n");
 
     type L = MuteLog;
     

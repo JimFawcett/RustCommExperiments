@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test1.rs - Test Tcp Communication Library    //
-//                                                         //
+//   - RustComm_VariableSizeMsg_NoBuff                     //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
@@ -31,7 +31,7 @@ type P = CommProcessing<Log>;
 
 fn main() {
 
-    print!("\n  -- Demo rust_comm: test1 --\n");
+    print!("\n  -- Demo rust_comm: test1\n  -- VariableMsgSize, NoBuff\n");
     
     let addr = "127.0.0.1:8080";
     let mut lsnr = Listener::<P,Log>::new(8);

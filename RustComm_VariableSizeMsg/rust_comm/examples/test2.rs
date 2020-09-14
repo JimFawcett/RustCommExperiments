@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test2.rs - Test Tcp Communication Library    //
-//                                                         //
+//   - RustComm_VariableSizeMsg                            //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
@@ -62,7 +62,7 @@ fn start_client(
 
 fn main() {
 
-    print!("\n  -- test2: rust_comm --\n");
+    print!("\n  -- test2: rust_comm\n  -- variable size msgs, buffered\n");
     
     let addr = "127.0.0.1:8080";
     let mut lsnr = Listener::<P,Log>::new(8);

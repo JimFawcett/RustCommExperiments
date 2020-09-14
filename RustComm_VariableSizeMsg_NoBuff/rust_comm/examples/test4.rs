@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test4.rs - Test Tcp Communication Library    //
-//                                                         //
+//   - RustComm_VariableSizeMsg_NoBuff                     //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
@@ -192,7 +192,7 @@ fn multiple_clients(
 
 fn main() {
 
-    print!("\n  -- test4: rust_comm --\n");
+    print!("\n  -- Demo rust_comm: test3\n  -- VariableMsgSize, NoBuff\n");
 
     type L = MuteLog;
     

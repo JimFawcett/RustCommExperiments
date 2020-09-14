@@ -1,9 +1,13 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test1.rs - Test Tcp Communication Library    //
-//                                                         //
+//   - RustComm_FixedSizeMsg                               //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
+   Fixed msg size, buffered transfers
+
+   NOTE!  message size is defined in Message crate
+ 
    Demo:
    - start Listener component
    - start Connector component
@@ -31,7 +35,7 @@ type P = CommProcessing<Log>;
 
 fn main() {
 
-    print!("\n  -- Demo rust_comm: test1 --\n");
+    print!("\n  -- test1: rust_comm\n  -- FixedMsgSize, Buffered\n");
     
     show_msg_size();
 

@@ -192,7 +192,7 @@ fn multiple_clients(
 */
 fn main() {
 
-    print!("\n  -- test4: rust_comm --\n");
+    print!("\n  -- test4: rust_comm\n  -- FixedMsgSize, Buffered\n");
 
     type L = MuteLog;
     show_msg_size();
