@@ -4,4 +4,4 @@ Repository holds three synchronous Tcp-based message-passing communication crate
 - vaiable message sizes without buffering
 - fixed sized messages with buffering
 
-Status: nearly complete.  Minor problems with one test case. Will publish performance stats soon.
+Status: essentially complete.  Minor code clean-up and publishing performance stats remain.
