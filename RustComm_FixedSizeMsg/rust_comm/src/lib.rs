@@ -182,33 +182,31 @@ pub fn handle_client(strm: TcpStream) -> Result<()> {
     /*-- thread handles client until receiving an END or QUIT message --*/
     let mut buf_writer = BufWriter::new(strm.try_clone()?);
     let mut buf_reader = BufReader::new(strm.try_clone()?);
-    // let _ = std::thread::spawn(move || {
-        let mut msg = Message::new(MSG_SIZE);  // MSG_SIZE
-        loop {
-            L::write("\n  attempting to recv message in client handler");
+    let mut msg = Message::new(MSG_SIZE);  // MSG_SIZE
+    loop {
+        L::write("\n  attempting to recv message in client handler");
+        let _ = std::io::stdout().flush();
+        let rslt:Result<()> = P::buf_recv_message(&mut buf_reader, &mut msg);
+        L::write("\n  receive successful in client handler");
+        if rslt.is_err() {
+            print!("\n  socket session closed abruptly");
             let _ = std::io::stdout().flush();
-            let rslt:Result<()> = P::buf_recv_message(&mut buf_reader, &mut msg);
-            L::write("\n  receive successful in client handler");
-            if rslt.is_err() {
-                print!("\n  socket session closed abruptly");
-                let _ = std::io::stdout().flush();
-                break;
-            }
-            if msg.get_type() == MessageType::END as u8 {
-                L::write("\n--listener received END message--");
-                L::write("\n--terminating client handler loop--");           
-                break;
-            }
-            else if msg.get_type() == MessageType::QUIT as u8 {
-                L::write("\n--listener received QUIT message--");
-                L::write("\n--terminating client handler loop--");
-                break;
-            }
-            P::process_message(&mut msg);
-            let _ = P::buf_send_message(&msg, &mut buf_writer);
-        } 
-        L::write("\n  terminating handler thread");
-    // });
+            break;
+        }
+        if msg.get_type() == MessageType::END as u8 {
+            L::write("\n--listener received END message--");
+            L::write("\n--terminating client handler loop--");           
+            break;
+        }
+        else if msg.get_type() == MessageType::QUIT as u8 {
+            L::write("\n--listener received QUIT message--");
+            L::write("\n--terminating client handler loop--");
+            break;
+        }
+        P::process_message(&mut msg);
+        let _ = P::buf_send_message(&msg, &mut buf_writer);
+    } 
+    L::write("\n  terminating handler thread");
     Ok(())
 }
 /*---------------------------------------------------------

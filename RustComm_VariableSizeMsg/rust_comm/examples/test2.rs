@@ -44,7 +44,7 @@ fn start_client(
             }
             /*---------------------------------*/
             let s = format!("msg #{} from {}", i, name);
-            let mut msg = create_msg_str_fit(&s);
+            let mut msg = Message::create_msg_str_fit(&s);
             msg.set_type(MessageType::FLUSH as u8);
             print!("\n  posting msg:  {:?}", s);
             Log::write(&format!("\n  message size: {:?}", msg.len()));

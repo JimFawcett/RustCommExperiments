@@ -24,6 +24,7 @@ use std::str::Utf8Error;
 */
 pub const TYPE_SIZE:usize = 1;
 pub const CONTENT_SIZE:usize = 8;  // max 4096 - 32 - 1 = 4063
+pub const HEADER_SIZE:usize = TYPE_SIZE + CONTENT_SIZE;
 pub const MSG_SIZE:usize = 4096;
 
 pub fn show_msg_size() {
@@ -51,6 +52,7 @@ impl Msg for Message {
       Primary interface
     */
     fn new(sz:usize) -> Self {
+        assert!(sz >= HEADER_SIZE);
         Self {
             br: vec![0; sz],
         }
@@ -80,11 +82,11 @@ impl Msg for Message {
     */
     fn set_content_bytes(&mut self, buff: &[u8]) {
         self.set_content_size(buff.len());
-        self.set_field(TYPE_SIZE+CONTENT_SIZE, buff);
+        self.set_field(HEADER_SIZE, buff);
     }
     fn get_content_bytes(&self) -> &[u8] {
         self.get_field(
-            TYPE_SIZE + CONTENT_SIZE, 
+            HEADER_SIZE, 
             self.get_content_size()
         )
     }
@@ -98,7 +100,7 @@ impl Msg for Message {
     }
     fn get_content_str(&self) ->Result<&str, Utf8Error> {
         let sz = self.get_content_size();
-        let start = TYPE_SIZE + CONTENT_SIZE;
+        let start = HEADER_SIZE;
         let end = start + sz;
         Self::str_from_bytes(&self.br[start..end])
     }
@@ -164,6 +166,9 @@ impl Msg for Message {
         else if self.br[0] == MessageType::TEXT as u8 {
             rtn = String::from("TEXT");
         }
+        else if self.br[0] == MessageType::FLUSH as u8 {
+            rtn = String::from("FLUSH");
+        }
         rtn
     }
 }
@@ -171,6 +176,31 @@ impl Message {
     /*-------------------------------------------
       Secondary interface
     */
+    pub fn create_msg_str_fit(content: &str) -> Message {
+        let msg_size = content.len() + HEADER_SIZE;
+        let mut msg = Message::new(msg_size);
+        let cnt_len = content.len();
+        msg.set_content_size(cnt_len);
+        if cnt_len > 0 {
+            msg.set_content_str(content);
+        }
+        msg
+    }
+    pub fn create_msg_bytes_fit(content: &[u8]) -> Message {
+        let msg_size = content.len() + HEADER_SIZE;
+        let mut msg = Message::new(msg_size);
+        let cnt_len = content.len();
+        msg.set_content_size(cnt_len);
+        if cnt_len > 0 {
+            msg.set_content_bytes(content);
+        }
+        msg
+    }
+    pub fn create_msg_header_only() -> Message {
+        let mut msg = Message::new(HEADER_SIZE);
+        msg.set_content_size(0);
+        msg
+    }
     pub fn set_field(&mut self, offset:usize, buff: &[u8]) {
         for (i, item) in buff.iter().enumerate() {
             if i + offset < self.br.len() {
@@ -196,6 +226,7 @@ impl Message {
         std::str::from_utf8(b)
     }
 }
+
 #[cfg(test)]
 mod tests {
     // use super::*;

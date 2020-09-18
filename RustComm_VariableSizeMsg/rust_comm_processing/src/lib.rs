@@ -24,6 +24,7 @@ use std::fmt::*;
 use std::net::{TcpStream};
 use std::io::prelude::*;
 use std::io::{BufReader, BufWriter, Write};
+use std::convert::{TryInto};
 
 type M = Message;
 
@@ -82,18 +83,16 @@ where
     fn recv_message(stream: &mut TcpStream) -> std::io::Result<M> 
     {
         L::write("\n  attempting to receive msg in commProc");
-        /*-- get MessageType --*/
-        let buf = &mut [0u8; 1];
+        let buf = &mut [0u8; HEADER_SIZE];
         stream.read_exact(buf)?;
         let msgtype = buf[0];
-        //msg.set_type(msgtype);
-        /*-- get body size --*/
-        let mut buf = [0u8; 8];
-        stream.read_exact(&mut buf)?;
-        let bdysz = usize::from_be_bytes(buf);
-        /*-- get body bytes --*/
+        let sz_slice = &buf[1..HEADER_SIZE];
+        let mut dst = [0u8;8];
+        dst.clone_from_slice(sz_slice); // array from byte slice
+        let bdysz = usize::from_be_bytes(dst);   // usize from byte array
+
         let mut bdy = vec![0u8;bdysz];
-        stream.read_exact(&mut bdy)?;
+        stream.read_exact(&mut bdy)?;        
         let msg_size = TYPE_SIZE + CONTENT_SIZE + bdysz;
         let mut msg = M::new(msg_size);
         msg.set_type(msgtype);
@@ -104,19 +103,16 @@ where
     fn buf_recv_message(stream: &mut BufReader<TcpStream>) -> std::io::Result<M> 
     {
         L::write("\n  attempting to receive msg in commProc");
-        L::write("\n  attempting to receive msg in commProc");
-        /*-- get MessageType --*/
-        let buf = &mut [0u8; 1];
+        let buf = &mut [0u8; HEADER_SIZE];
         stream.read_exact(buf)?;
         let msgtype = buf[0];
-        //msg.set_type(msgtype);
-        /*-- get body size --*/
-        let mut buf = [0u8; 8];
-        stream.read_exact(&mut buf)?;
-        let bdysz = usize::from_be_bytes(buf);
-        /*-- get body bytes --*/
+        let sz_slice = &buf[1..HEADER_SIZE];
+        let mut dst = [0u8;8];
+        dst.clone_from_slice(sz_slice); // array from byte slice
+        let bdysz = usize::from_be_bytes(dst);   // usize from byte array
+
         let mut bdy = vec![0u8;bdysz];
-        stream.read_exact(&mut bdy)?;
+        stream.read_exact(&mut bdy)?;        
         let msg_size = TYPE_SIZE + CONTENT_SIZE + bdysz;
         let mut msg = M::new(msg_size);
         msg.set_type(msgtype);

@@ -46,7 +46,7 @@ fn main() {
         print!("\n  connected to: {:?}",addr);
         let _ = std::io::stdout().flush();
         let conn = rslt.unwrap();
-        let mut msg = create_msg_str_fit("message #1");
+        let mut msg = Message::create_msg_str_fit("message #1");
         msg.set_type(MessageType::FLUSH as u8);
         print!("\n  main posting msg: {:?}", msg.get_content_str().unwrap());
         // let _ = std::io::stdout().flush();
@@ -57,7 +57,7 @@ fn main() {
         print!("\n\n  main received msg: {:?}",msg.get_content_str().unwrap());
         let _ = std::io::stdout().flush();
     
-        let mut msg = create_msg_str_fit("message #2");
+        let mut msg = Message::create_msg_str_fit("message #2");
         msg.set_type(MessageType::FLUSH as u8);
         print!("\n  main posting msg: {:?}", msg.get_content_str().unwrap());
         conn.post_message(msg);

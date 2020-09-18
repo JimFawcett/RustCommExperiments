@@ -6,6 +6,7 @@
 
 use rust_traits::*;
 use std::fmt::*;
+use std::io::{Write};
 
 #[derive(Debug, Copy, Clone, Default)]
 pub struct Logr<L: Logger> {
@@ -29,6 +30,7 @@ pub struct VerboseLog {}
 impl Logger for  VerboseLog {
     fn write(msg: &str) {
         print!("{}", msg);
+        let _ = std::io::stdout().flush();
     }
 }
 

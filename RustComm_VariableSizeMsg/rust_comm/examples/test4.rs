@@ -1,11 +1,13 @@
 /////////////////////////////////////////////////////////////
 // rust_comm::test4.rs - Test Tcp Communication Library    //
-//   - RustComm_VariableSizeMsg                            //
+//   - RustComm_VariableSizeMsg_NoBuff                     //
 // Jim Fawcett, https://JimFawcett.github.io, 19 Jul 2020  //
 /////////////////////////////////////////////////////////////
 /*
-   Variable size msgs, buffered
+   Fixed size msg: buffered, fixed size msgs
 
+   NOTE!  message size is defined in Message crate
+ 
    Demo:
    Test message rate and throughput for multiple clients
    - start Listener component
@@ -53,7 +55,7 @@ fn client_wait_for_reply<L: Logger>(
         name, num_msgs, sz_bytes
     );
     let conn = Connector::<P,M,Log>::new(addr).unwrap();
-    let mut msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
+    let mut msg = Message::create_msg_bytes_fit(&vec![0;sz_bytes]);
     msg.set_type(MessageType::FLUSH as u8);
     let mut tmr = StopWatch::new();
     let handle = std::thread::spawn(move || {
@@ -77,10 +79,13 @@ fn client_wait_for_reply<L: Logger>(
         }
         let _ = tmr.stop();
         let et = tmr.elapsed_micros();
-        let mut msg = Message::new(TYPE_SIZE + CONTENT_SIZE);
+        let content_size = 32;
+        let mut msg = Message::new(HEADER_SIZE + content_size);
         msg.set_type(MessageType::END as u8);
+        msg.set_content_size(content_size);
         conn.post_message(msg);
         display_test_data(et, num_msgs, sz_bytes);
+        let _ = std::io::stdout().flush();
     });
     handle
 }
@@ -101,8 +106,8 @@ fn client_no_wait_for_reply<L: Logger>(
     let conn = Arc::new(Connector::<P,M,Log>::new(addr).unwrap());
     let sconn1 = Arc::clone(&conn);
     let sconn2 = Arc::clone(&conn);
-    let msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
-    let _handle = std::thread::spawn(move || {
+    let msg = Message::create_msg_bytes_fit(&vec![0;sz_bytes]);
+    let _handle = std::thread::Builder::new().name("first".to_string()).spawn(move || {
         for _i in 0..num_msgs {
             L::write(
                 &format!(
@@ -112,11 +117,13 @@ fn client_no_wait_for_reply<L: Logger>(
             );
             sconn1.post_message(msg.clone());
         }
-        let mut msg = Message::new(TYPE_SIZE + CONTENT_SIZE);
+        let content_size = 32;
+        let mut msg = Message::new(HEADER_SIZE + content_size);
         msg.set_type(MessageType::END as u8);
+        msg.set_content_size(content_size);
         sconn1.post_message(msg);
     });
-    let handle = std::thread::spawn(move || {
+    let handle = std::thread::Builder::new().name("second".to_string()).spawn(move || {
         for _i in 0..num_msgs {
             let msg = sconn2.get_message();
             L::write(
@@ -127,7 +134,7 @@ fn client_no_wait_for_reply<L: Logger>(
             );
         }
     });
-  (_handle, handle)
+  (_handle.unwrap(), handle.unwrap())
 }
 /*---------------------------------------------------------
   Display test data - used for individual tests
@@ -141,6 +148,7 @@ fn display_test_data(et:u128, num_msgs:usize, msg_size:usize) {
     print!("\n      elapsed microsec {}", et);
     print!("\n      messages/second  {:.2}", msg_rate);
     print!("\n      thruput - MB/S   {:.2}", byte_rate_mbpsec);
+    let _ = std::io::stdout().flush();
 }
 /*---------------------------------------------------------
   Multiple clients running client_no_wait_for_reply
@@ -181,9 +189,10 @@ fn multiple_clients(
 /*---------------------------------------------------------
   Perf testing - runs tests of the day
 */
+
 fn main() {
 
-    print!("\n  -- test4: rust_comm\n  -- variable size msgs, buffered\n");
+    print!("\n  -- Demo rust_comm: test3\n  -- VariableMsgSize, Buffered\n");
 
     type L = MuteLog;
     

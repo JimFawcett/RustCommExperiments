@@ -30,6 +30,7 @@ use rust_comm_processing::*;
 use rust_comm_logger::*;
 use rust_comm::*;
 use rust_timer::*;
+use rust_debug::*;
 
 type Log = MuteLog;
 type M = Message;
@@ -46,12 +47,13 @@ fn client_wait_for_reply<L: Logger>(
 ) -> std::thread::JoinHandle<()> 
 {
     print!(
-        "\n  -- {}: {} msgs, {} bytes per msg ", 
+        "\n  -- {}:\n      {} msgs, {} bytes content per msg ", 
         name, num_msgs, sz_bytes
     );
     let conn = Connector::<P,M,Log>::new(addr).unwrap();
-    let mut msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
+    let mut msg = Message::create_msg_bytes_fit(&vec![0;sz_bytes]);
     msg.set_type(MessageType::FLUSH as u8);
+
     let mut tmr = StopWatch::new();
     let handle = std::thread::spawn(move || {
         /*-- start timer after connect, bld msg & start thread --*/
@@ -63,8 +65,6 @@ fn client_wait_for_reply<L: Logger>(
                     name, sz_bytes
                 )
             );
-            // msg.clone().show_message(8);
-            // let _ = std::io::stdout().flush();
             conn.post_message(msg.clone());
             let msg = conn.get_message();
             L::write(
@@ -76,7 +76,7 @@ fn client_wait_for_reply<L: Logger>(
         }
         let _ = tmr.stop();
         let et = tmr.elapsed_micros();
-        let mut msg = Message::new(sz_bytes);
+        let mut msg = Message::create_msg_header_only();
         msg.set_type(MessageType::END as u8);
         conn.post_message(msg);
         display_test_data(et, num_msgs, sz_bytes);
@@ -105,14 +105,13 @@ fn client_no_wait_for_reply<L: Logger>(
 ) -> (std::thread::JoinHandle<()>, std::thread::JoinHandle<()>) 
 {
     print!(
-        "\n  -- {}: {} msgs, {} bytes per msg ", 
+        "\n  -- {}:\n      {} msgs, {} bytes content per msg ", 
         name, num_msgs, sz_bytes
     );
     let conn = Arc::new(Connector::<P,M,Log>::new(addr).unwrap());
     let sconn1 = Arc::clone(&conn);
     let sconn2 = Arc::clone(&conn);
-    let msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
-    // msg.set_type(MessageType::FLUSH as u8);
+    let msg = Message::create_msg_bytes_fit(&vec![0;sz_bytes]);
 
     let mut tmr = StopWatch::new();
     let _handle = std::thread::spawn(move || {
@@ -154,7 +153,9 @@ fn client_no_wait_for_reply<L: Logger>(
 */
 fn main() {
 
-    print!("\n  -- Demo rust_comm: test3\n  -- VariableMsgSize, NoBuff\n");
+    print!("\n  -- Demo rust_comm: test3");
+    print!("\n  -- One client");
+    print!("\n  -- VariableMsgSize, NoBuff\n");
 
     type L = MuteLog;
 
@@ -194,13 +195,13 @@ fn main() {
     println!();
 
     let h1 = client_wait_for_reply::<L>(
-        addr, "test3 - wait for reply", 1000, 32
+        addr, "test3 - wait for reply", 1000, 0
     );
     let _ = h1.join();
     println!();
 
     let (h2a, h2b) = client_no_wait_for_reply::<L>(
-        addr, "test3 - no wait for reply", 1000, 32
+        addr, "test3 - no wait for reply", 1000, 0
     );
     let _ = h2a.join();
     let _ = h2b.join();

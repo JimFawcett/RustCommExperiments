@@ -60,7 +60,7 @@ fn construction(addr: &'static str) -> Result<()> {
     });
 
     Log::write("\n  sending msg");
-    let mut msg:Message = create_msg_str_fit("test message");
+    let mut msg:Message = Message::create_msg_str_fit("test message");
     msg.set_type(MessageType::FLUSH as u8);
     let stream = TcpStream::connect(addr)?;
     let mut buf_writer = BufWriter::new(stream.try_clone()?);

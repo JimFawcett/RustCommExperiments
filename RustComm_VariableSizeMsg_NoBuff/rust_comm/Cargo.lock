@@ -74,6 +74,7 @@ dependencies = [
  "rust_blocking_queue",
  "rust_comm_logger",
  "rust_comm_processing",
+ "rust_debug",
  "rust_message",
  "rust_thread_pool",
  "rust_timer",
@@ -96,6 +97,10 @@ dependencies = [
  "rust_message",
  "rust_traits",
 ]
+
+[[package]]
+name = "rust_debug"
+version = "0.1.0"
 
 [[package]]
 name = "rust_message"

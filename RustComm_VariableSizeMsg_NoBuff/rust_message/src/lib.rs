@@ -45,6 +45,7 @@ impl Msg for Message {
       Primary interface
     */
     fn new(sz:usize) -> Self {
+        assert!(sz >= HEADER_SIZE);
         Self {
             br: vec![0; sz],
         }
@@ -158,6 +159,9 @@ impl Msg for Message {
         else if self.br[0] == MessageType::TEXT as u8 {
             rtn = String::from("TEXT");
         }
+        else if self.br[0] == MessageType::FLUSH as u8 {
+            rtn = String::from("FLUSH");
+        }
         rtn
     }
 }
@@ -165,6 +169,31 @@ impl Message {
     /*-------------------------------------------
       Secondary interface
     */
+    pub fn create_msg_str_fit(content: &str) -> Message {
+        let msg_size = content.len() + HEADER_SIZE;
+        let mut msg = Message::new(msg_size);
+        let cnt_len = content.len();
+        msg.set_content_size(cnt_len);
+        if cnt_len > 0 {
+            msg.set_content_str(content);
+        }
+        msg
+    }
+    pub fn create_msg_bytes_fit(content: &[u8]) -> Message {
+        let msg_size = content.len() + HEADER_SIZE;
+        let mut msg = Message::new(msg_size);
+        let cnt_len = content.len();
+        msg.set_content_size(cnt_len);
+        if cnt_len > 0 {
+            msg.set_content_bytes(content);
+        }
+        msg
+    }
+    pub fn create_msg_header_only() -> Message {
+        let mut msg = Message::new(HEADER_SIZE);
+        msg.set_content_size(0);
+        msg
+    }
     pub fn set_field(&mut self, offset:usize, buff: &[u8]) {
         for (i, item) in buff.iter().enumerate() {
             if i + offset < self.br.len() {
@@ -191,25 +220,6 @@ impl Message {
     }
 }
 
-pub fn create_msg_str_fit(content: &str) -> Message {
-    let msg_size = content.len() + HEADER_SIZE;
-    let mut msg = Message::new(msg_size);
-    msg.set_content_str(content);
-    msg
-}
-
-pub fn create_msg_bytes_fit(content: &[u8]) -> Message {
-    let msg_size = content.len() + HEADER_SIZE;
-    let mut msg = Message::new(msg_size);
-    msg.set_content_bytes(content);
-    msg
-}
-
-pub fn create_msg_header_only() -> Message {
-    let mut msg = Message::new(HEADER_SIZE);
-    msg.set_content_size(0);
-    msg
-}
 #[cfg(test)]
 mod tests {
     // use super::*;

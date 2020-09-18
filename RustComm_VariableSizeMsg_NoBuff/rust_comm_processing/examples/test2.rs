@@ -20,17 +20,24 @@ fn handle_client(stream: &TcpStream) -> std::io::Result<()> {
     let mut buf_writer = BufWriter::new(stream.try_clone()?);
     let mut buf_reader = BufReader::new(stream.try_clone()?);
 
-    let rslt:Result<Message> = CommProcessing::<Log>::buf_recv_message(&mut buf_reader);
-    if rslt.is_err() {
-        print!("\n  recv_message error");
-        let err = std::io::Error::new(ErrorKind::Other, "recv error");
-        return Err(err);
-    }
-    else {
-        print!("\n  receiver received msg");
-        let msg = rslt.unwrap();
-        msg.show_message(8);
-        CommProcessing::<Log>::buf_send_message(&msg, &mut buf_writer)?;
+    loop {
+        let rslt:Result<Message> = CommProcessing::<Log>::buf_recv_message(&mut buf_reader);
+        if rslt.is_err() {
+            print!("\n  recv_message error");
+            let err = std::io::Error::new(ErrorKind::Other, "recv error");
+            return Err(err);
+        }
+        else {
+            let mut msg = rslt.unwrap();
+            print!("\n  receiver received msg");
+            msg.show_message(8);
+            let _ = std::io::stdout().flush();
+            CommProcessing::<Log>::process_message(&mut msg);
+            CommProcessing::<Log>::buf_send_message(&msg, &mut buf_writer)?;
+            if msg.get_type() == MessageType::QUIT as u8 {
+                break;
+            }
+        }
     }
     Ok(())
 }
@@ -48,6 +55,8 @@ fn start_listener(end_point: &str) -> std::io::Result<()> {
     Ok(())
 }
 fn construction(addr: &'static str) -> Result<()> {
+
+    /*-- start listener --*/
     let _cp = CommProcessing::<VerboseLog>::new();
     let addr_copy = addr;
     let handle = std::thread::spawn(move || {
@@ -58,30 +67,49 @@ fn construction(addr: &'static str) -> Result<()> {
         }
         rslt
     });
-
-    Log::write("\n  sending msg");
-    let mut msg:Message = create_msg_str_fit("test message");
-    msg.set_type(MessageType::FLUSH as u8);
+    /*-- set up channel --*/
     let stream = TcpStream::connect(addr)?;
     let mut buf_writer = BufWriter::new(stream.try_clone()?);
     let mut buf_reader = BufReader::new(stream.try_clone()?);
+
+    /*-- send message with str body --*/
+    print!("\n  sending test msg\n");
+    let mut msg:Message = Message::create_msg_str_fit("test message");
+    msg.set_type(MessageType::FLUSH as u8);
     CommProcessing::<Log>::buf_send_message(&msg, &mut buf_writer)?;
     Log::write(&format!("\n  sent message with len: {:?}",msg.len()));
-    let _ = std::io::stdout().flush();
-    println!();
 
-    let mut msg:Message = CommProcessing::<Log>::buf_recv_message(&mut buf_reader)?;
+    /*-- attempt to receive msg with str body */
+    let msg:Message = CommProcessing::<Log>::buf_recv_message(&mut buf_reader)?;
     print!("\n\n  connector received reply msg");
     let _ = std::io::stdout().flush();
-
     msg.show_message(8);
     let s = msg.get_content_str().unwrap();
-    print!("\n\n  message content: {:?}",s);
+    print!("\n\n  message content: {:?}\n",s);
 
+    /*-- send header only message --*/
+    print!("\n  sending header only msg\n");
+    let mut msg = Message::create_msg_header_only();
+    msg.set_type(MessageType::FLUSH as u8);
+    CommProcessing::<Log>::buf_send_message(&msg, &mut buf_writer)?;
+    Log::write(&format!("\n  sent message with len: {:?}",msg.len()));
+
+    /*-- attempt to receive msg with empty body --*/
+    let msg:Message = CommProcessing::<Log>::buf_recv_message(&mut buf_reader)?;
+    print!("\n\n  connector received reply msg");
+    let _ = std::io::stdout().flush();
+    msg.show_message(8);
+    println!();
+
+    /*-- send quit message --*/
+    print!("\n  sending quit message\n");
+    let mut msg = Message::create_msg_bytes_fit(&[0u8;0]);
     msg.set_type(MessageType::QUIT as u8);
     CommProcessing::<Log>::buf_send_message(&msg, &mut buf_writer)?;
     let msg:Message = CommProcessing::<Log>::buf_recv_message(&mut buf_reader)?;
+    print!("\n\n  connector received msg");
     msg.show_message(8);
+
     let _ = handle.join();
     Ok(())
 }
@@ -93,7 +121,7 @@ fn main() {
     let addr: &'static str = "127.0.0.1:8083";
     let rslt = construction(addr);
     if rslt.is_err() {
-        print!("\n  listener start on {:?} failed", addr);
+        print!("\n  message-passing error {:?} connected to {:?}", rslt, addr);
     }
 
     print!("\n  That's all Folks!\n\n");

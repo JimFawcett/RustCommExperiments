@@ -57,14 +57,28 @@ fn main() {
     println!();
 
     print!("\n  -- demo messages fitted to content --\n");
-    let msg = create_msg_str_fit("a test string");
+    let msg = Message::create_msg_str_fit("a test string");
     msg.show_message(8);
     print!("\n\n  content: {:?}",msg.get_content_str().unwrap());
     println!();
 
-    let msg = create_msg_bytes_fit(&[1, 2, 3, 4]);
+    let msg = Message::create_msg_bytes_fit(&[1, 2, 3, 4]);
     msg.show_message(8);
     print!("\n\n  content: {:?}",msg.get_content_bytes());
+    println!();
+
+    let msg = Message::create_msg_bytes_fit(&[0u8;0]);  // intentionally 0 length
+    msg.show_message(8);
+    print!("\n\n  content: {:?}",msg.get_content_bytes());
+    let sz = msg.get_content_size();
+    print!("\n\n  msg content size: {}",sz);
+    println!();
+
+    print!("\n  -- demo header only message --\n");
+    let msg = Message::create_msg_header_only();
+    let sz = msg.get_content_size();
+    msg.show_message(8);
+    print!("\n\n  msg content size: {}",sz);
     
     print!("\n\n  That's all Folks!\n\n");
 }

@@ -54,7 +54,7 @@ fn construction(addr: &'static str) -> Result<()> {
     });
 
     Log::write("\n  sending msg");
-    let msg = create_msg_str_fit("test string");
+    let msg = Message::create_msg_str_fit("test string");
     let mut stream = TcpStream::connect(addr)?;
     let mut clone_stream = stream.try_clone()?;
     let _ = CommProcessing::<Log>::send_message(&msg, &mut stream);

@@ -55,7 +55,7 @@ fn client_wait_for_reply<L: Logger>(
         name, num_msgs, sz_bytes
     );
     let conn = Connector::<P,M,Log>::new(addr).unwrap();
-    let mut msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
+    let mut msg = Message::create_msg_bytes_fit(&vec![0;sz_bytes]);
     msg.set_type(MessageType::FLUSH as u8);
     let mut tmr = StopWatch::new();
     let handle = std::thread::spawn(move || {
@@ -106,7 +106,7 @@ fn client_no_wait_for_reply<L: Logger>(
     let conn = Arc::new(Connector::<P,M,Log>::new(addr).unwrap());
     let sconn1 = Arc::clone(&conn);
     let sconn2 = Arc::clone(&conn);
-    let msg = create_msg_bytes_fit(&vec![0;sz_bytes]);
+    let msg = Message::create_msg_bytes_fit(&vec![0;sz_bytes]);
     let _handle = std::thread::Builder::new().name("first".to_string()).spawn(move || {
         for _i in 0..num_msgs {
             L::write(
