@@ -1,23 +1,100 @@
 
                                       CodeAnalysis - Version 1.4
     ==============================================================================================
-     Sat Aug 22 12:31:43 2020
-     Path: "C:\github\JimFawcett\RustCommWithThreadPool"
-     Args: *.h, *.cpp, *.cs, /v, /m, /r, /f
+     Sat Dec  5 20:10:47 2020
+     Path: "C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg"
+     Args: *.rs, /m, /r, /f, /s
                                                                                
            Code Metrics - Start Line, Size (lines/code), and Complexity (number of scopes)
     ==============================================================================================
 
                  file name        type                               name    line    size    cplx
     -----------------------  ----------  ---------------------------------  ------  ------  ------
-                             namespace                   Global Namespace       1       1       1
+                             namespace                   Global Namespace       1     117      69
 
-                          Functions Exceeding Metric Limits and Public Data
-    ==============================================================================================
                  file name        type                               name    line    size    cplx
     -----------------------  ----------  ---------------------------------  ------  ------  ------
+                    lib.rs      struct                      BlockingQueue      24       5       1
+                    lib.rs    function                            default      29       6       2
+                    lib.rs    function                                new      38       6       2
+                    lib.rs    function                               en_q      46       5       1
+                    lib.rs    function                               de_q      54       7       2
+                    lib.rs    function                                len      56       3       1
+                    lib.rs    function                                len      62       3       1
+                    lib.rs    function                             bq_len      71       4       1
+                    lib.rs    function                        bq_en_queue      76       5       1
+                    lib.rs    function                        bq_de_queue      82       6       1
+                    lib.rs      struct                          Connector      54       9       1
+
+                 file name        type                               name    line    size    cplx
+    -----------------------  ----------  ---------------------------------  ------  ------  ------
+                  test1.rs    function                               main      15       8       1
+                  test1.rs    function                               test      25      43       6
+                  test1.rs    function                              spawn      34      13       3
+                  test1.rs    function                               main      32      50       4
+                  test1.rs    function                             is_err      39       3       1
+                  test1.rs    function                              is_ok      45      28       1
+
+                 file name        type                               name    line    size    cplx
+    -----------------------  ----------  ---------------------------------  ------  ------  ------
+                  test2.rs    function                       start_client      32      30       4
+                  test2.rs    function                              spawn      34      25       3
+                  test2.rs    function                               main      63      25       2
+                  test2.rs    function                             is_err      70       4       1
+
+                 file name        type                               name    line    size    cplx
+    -----------------------  ----------  ---------------------------------  ------  ------  ------
+                  test3.rs    function                                  >      60      38       3
+                  test3.rs    function                              spawn      70      25       2
+                  test3.rs    function                  display_test_data      98      10       1
+                  test3.rs    function                                  >     118      44       5
+                  test3.rs    function                              spawn     129      15       2
+                  test3.rs    function                              spawn     145      14       2
+                  test3.rs    function                               main     166      60       2
+                  test3.rs    function                             is_err     178       3       1
+
+                 file name        type                               name    line    size    cplx
+    -----------------------  ----------  ---------------------------------  ------  ------  ------
+                  test4.rs    function                                  >      52      40       3
+                  test4.rs    function                              spawn      61      28       2
+                  test4.rs    function                                  >     101      38       5
+                  test4.rs    function                                new     110      15       2
+                  test4.rs    function                                new     126      10       2
+                  test4.rs    function                  display_test_data     142      11       1
+                  test4.rs    function                   multiple_clients     163      26       3
+                  test4.rs    function                               main     193      22       2
+                  test4.rs    function                             is_err     204       3       1
+
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_blocking_queue\examples\test1.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_blocking_queue\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm\examples\test1.rs
+        45 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm\examples\test2.rs
+       225 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm\examples\test3.rs
+       214 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm\examples\test4.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm\src\lib.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm_logger\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm_processing\examples\test1.rs
+        45 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm_processing\examples\test2.rs
+       108 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm_processing\src\archive\comm_processing.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_comm_processing\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_debug\examples\test1.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_debug\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_message\examples\test1.rs
+       157 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_message\src\archive\comm_message.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_message\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_thread_pool\examples\test1.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_thread_pool\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_thread_pool_with_output_queue\examples\test1.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_thread_pool_with_output_queue\src\lib.rs
+        26 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_timer\examples\test1.rs
+        45 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_timer\examples\test2.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_timer\src\lib.rs
+        43 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_traits\src\archive\comm_traits.rs
+        76 : C:\github\JimFawcett\RustCommExperiments\RustComm_VariableSizeMsg\rust_traits\src\lib.rs
+
+      Total line count = 1850
 
 
 
-    searched   337 dirs
-   processed     0 files
+    searched   276 dirs
+   processed    26 files

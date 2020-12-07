@@ -1,0 +1,1 @@
+{"rustc":578464894881672569,"features":"[]","target":5721043284177189261,"profile":4339006351771724982,"path":16898599498682460775,"deps":[[5622268746471061634,"chrono",false,10881755126548244412]],"local":[{"CheckDepInfo":{"dep_info":"release\\.fingerprint\\rust_timer-54656421dfa46883\\dep-lib-rust_timer"}}],"rustflags":[],"metadata":11098409904327420213,"config":0}

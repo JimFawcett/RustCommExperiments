@@ -1,0 +1,150 @@
+
+  -- Demo rust_comm: test3
+  -- VariableMsgSize, Buffered
+
+  num thrdpool thrds: 8
+  number of clients:  16
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  elapsed microsecs:  265781
+  number messages:    16000
+  throughput MB/S:    246
+
+  -- Demo rust_comm: test3
+  -- VariableMsgSize, Buffered
+
+  num thrdpool thrds: 8
+  number of clients:  16
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  elapsed microsecs:  265970
+  number messages:    16000
+  throughput MB/S:    246
+
+  -- Demo rust_comm: test3
+  -- VariableMsgSize, Buffered
+
+  num thrdpool thrds: 8
+  number of clients:  16
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  elapsed microsecs:  263129
+  number messages:    16000
+  throughput MB/S:    249
+
+  -- Demo rust_comm: test3
+  -- VariableMsgSize, Buffered
+
+  num thrdpool thrds: 8
+  number of clients:  16
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  elapsed microsecs:  288542
+  number messages:    16000
+  throughput MB/S:    227
+
+  -- Demo rust_comm: test3
+  -- VariableMsgSize, Buffered
+
+  num thrdpool thrds: 8
+  number of clients:  16
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  elapsed microsecs:  263139
+  number messages:    16000
+  throughput MB/S:    249
+
+  -- Demo rust_comm: test3
+  -- VariableMsgSize, Buffered
+
+  num thrdpool thrds: 8
+  number of clients:  16
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  -- test4: 1000 msgs, 4096 content bytes per msg 
+  elapsed microsecs:  274253
+  number messages:    16000
+  throughput MB/S:    238
