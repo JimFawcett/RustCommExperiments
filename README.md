@@ -1,6 +1,7 @@
 # RustCommExperiments
 
-https://JimFawcett.github.io/RustCommExperiments.html
+https://JimFawcett.github.io/RustCommExperiments.html  
+https://jimfawcett.github.io/CommCompare.html  
 
 Repository holds three synchronous Tcp-based message-passing communication crates with different design strategies
 - variable message sizes and buffered transfers
