@@ -9,8 +9,8 @@ Repository holds three synchronous Tcp-based message-passing communication crate
 
 Status: complete. The variable message sizes with buffered transfers is the configuration I've adopted for future work.
 
-Build Process:
-Clone the repository using:
+Build Process:<hr />
+Clone the repository using:\n
   git clone https://github.com/JimFawcett/RustCommExperiments.git
   from the command line, navigate into:
     RustComm_VariableSizeMsg/rust_com
