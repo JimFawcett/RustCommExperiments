@@ -12,9 +12,9 @@ Status: complete. The variable message sizes with buffered transfers is the conf
 Build Process:  
 Clone the repository using:  
   git clone https://github.com/JimFawcett/RustCommExperiments.git  
-  from the command line, navigate into:
+  from the command line, navigate into:  
   - RustComm_VariableSizeMsg/rust_com  
-Issue the command:
+Issue the command:  
 - cargo run --example test4 --release  
 
 That will build the version used for demonstrations in https://jimfawcett.github.io/CommCompare.html
