@@ -30,6 +30,9 @@ The variations are experiments to see how performance varies with different desi
 
 ## Concept
 
+![RustComm Concept](Pictures/RustCommConcept.jpg)
+*Figure 1. RustComm Concept*
+
 RustComm is a facility for sending messages between a Sender and Receiver. It uses the std::net::TcpStream and std::net::TcpListener types.
 
 This is a prototype for message-passing communication system. It provides three user defined types: `Connector`, `Listener`, and `Message`, with generic parameters `M`, `P`, and `L`, as shown in Fig. 1.
@@ -52,6 +55,12 @@ The somewhat complex handling of TcpStreams and TcpListener are expected to rema
 Finally, logger `L` provides a write method that will, using `VerboseLog` for `L`, write its argument to the console. `MuteLog` simply discards its argument.
 
 The last step in this phase of development was to add a threadpool, as shown in Fig. 1. The threadpool exists and has been integrated into the Listener component. Fig 2. shows the results.
+
+![RustComm Output Test4](Pictures/RustCommExpOutput_test4.jpg)
+*Figure 2. RustComm Output Test4*
+
+![RustComm Output Test3](Pictures/RustCommExpOutput_test3.jpg)
+*Figure 3. RustComm Output Test3*
 
 ## Current Design
 
