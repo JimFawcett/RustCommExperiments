@@ -58,11 +58,11 @@ Finally, logger `L` provides a write method that will, using `VerboseLog` for `L
 The last step in this phase of development was to add a threadpool, as shown in Fig. 1. The threadpool exists and has been integrated into the Listener component. Fig 2. shows the results.
 
 <!-- ![RustComm Output Test4](Pictures/RustCommExpOutput_test4.jpg) -->
-<img src="Pictures/RustCommExpOutput_test4.jpg">
+<img src="Pictures/RustCommExpOutput_test4.jpg" width="500">
 *Figure 2. RustComm Output Test4*
 
 <!-- ![RustComm Output Test3](Pictures/RustCommExpOutput_test3.jpg) -->
-<img src="Pictures/RustCommExpOutput_test3.jpg">
+<img src="Pictures/RustCommExpOutput_test3.jpg" width="500">
 *Figure 3. RustComm Output Test3*
 
 ## Current Design
