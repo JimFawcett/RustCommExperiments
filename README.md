@@ -4,7 +4,7 @@
 
 *Last Modified: 11/29/2022*
 
-[RustCommExperiments code on GitHub](https://github.com/JimFawcett/RustCommExperiments)
+<!-- [RustCommExperiments code on GitHub](https://github.com/JimFawcett/RustCommExperiments) -->
 
 ## Quick Status
 
@@ -30,7 +30,8 @@ The variations are experiments to see how performance varies with different desi
 
 ## Concept
 
-![RustComm Concept](Pictures/RustCommConcept.jpg)
+<!-- ![RustComm Concept](Pictures/RustCommConcept.jpg) -->
+<img src="Pictures/RustCommConcept.jpg">
 *Figure 1. RustComm Concept*
 
 RustComm is a facility for sending messages between a Sender and Receiver. It uses the std::net::TcpStream and std::net::TcpListener types.
