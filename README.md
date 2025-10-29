@@ -33,8 +33,7 @@ The variations are experiments to see how performance varies with different desi
 <!-- ![RustComm Concept](Pictures/RustCommConcept.jpg) -->
 <img src="Pictures/RustCommConcept.jpg">
 Figure 1. RustComm Concept<br>
-
-
+<br>
 RustComm is a facility for sending messages between a Sender and Receiver. It uses the std::net::TcpStream and std::net::TcpListener types.
 
 This is a prototype for message-passing communication system. It provides three user defined types: `Connector`, `Listener`, and `Message`, with generic parameters `M`, `P`, and `L`, as shown in Fig. 1.
